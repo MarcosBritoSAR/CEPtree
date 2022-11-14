@@ -36,9 +36,7 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  
 }
 
 h1 {
@@ -187,17 +185,17 @@ header {
   background-color: #eee;
   color: var(--black-color);
 }
-
+/* 
 .cta:hover,a:hover{
   color: var(--color-red);
   background-color: var(--color-yellow); 
-}
+} */
 
 a:visited,.cta:visited,a:link{
   color: var(--color-red);
   
 }
-
+/* 
 a:active,
 .cta:active,
 a:focus,
@@ -205,7 +203,7 @@ a:focus,
   color: white;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
   background-color: var(--color-red);
-}
+} */
 
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;

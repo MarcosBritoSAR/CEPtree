@@ -1,16 +1,27 @@
 import './style/style.css'
 import Logo from '/ceptree.svg'
 import { RedBlackTree } from './core/RedBlackTree';
+import { getDataObject } from './component/readcep'
 
 
 
 const get = e => document.querySelector(e); //obtém um elemento
 const gets = e => document.querySelectorAll(e); //obtém uma lista de elementos
 
+get("#prepared").remove()
+get("#app").classList.remove("hidden")
+
 const headerElement = get('header h1:nth-child(2)')
 var logoElement = document.createElement('img')
 logoElement.src = Logo
 headerElement.append(logoElement)
+
+const tree = new RedBlackTree();
+
+
+
+
+// console.log(tree.count)
 
 // const homeElement = get('ul li:nth-child(1)')
 // homeElement.classList.add('selected')
@@ -50,51 +61,110 @@ headerElement.append(logoElement)
 //         e.classList.remove('hover')
 //     })
 // })
+import IMask from 'imask';
 
-import { getDataObject } from './component/readcep'
+const cepInput = get("#cep")
 
-const tree = new RedBlackTree();
-
-const itens = await getDataObject(5,tree)
-console.log(itens)
-
-const find = tree.search(Number("01001015"))
-if(find){
-    var node = tree.getNode(Number("01001015"))
-    node.key.print();
-}else{
-    console.log("não encontrado");
+const cepInputPattern = {
+    mask: "00000-000",
+    lazy: true
 }
-// const tree = new RedBlackTree();
-// var node0 = tree.insert(1);
-// var node1 = tree.insert(8);
-// var node2 = tree.insert(6);
-// var node3 = tree.insert(11);
-// var node4 = tree.insert(13);
-// var node5 = tree.insert(17);
-// var node6 = tree.insert(15);
-// var node7 = tree.insert(25);
-// var node8 = tree.insert(22);
-// var node9 = tree.insert(27);
-
-// var func = function(x) {
-//     console.log(x)
-// }
-
-// tree.inOrderTraverse(func)
+const cepInputMasked = IMask(cepInput, cepInputPattern)
 
 
-import { Address } from './core/Address'
+const btnSearch = get("#btnSearch")
 
-// var address_example = new Address({
-//     city: "Floriano/PI",
-//     street: "BR 343, s/n",
-//     neighborhood: "Campo Velho",
-//     zipCode: "64002150"
-// })
+btnSearch.addEventListener('click', () => {
+    console.log(cepInputMasked.unmaskedValue)
 
-// address_example.print()
 
-// const tree = new RedBlackTree();
-// var node0 = tree.insert(address_example);
-console.log(tree.count)
+
+
+
+    if (cepInputMasked.unmaskedValue.length !== 8) {
+        alert("Insira um cep válido.")
+    } else {
+        const keyToSearch = cepInputMasked.unmaskedValue;
+
+        const find = tree.search(Number(keyToSearch))
+
+        reusltP.style.display = "block"
+
+        if (find) {
+            var node = tree.getNode(Number(keyToSearch))
+            node.key.print()
+            reusltP.innerText = `CEP ${cepInputMasked.value} encontrado.`;
+            dataResultDiv.style.display = "block";
+
+            const cepValueCep = get("#cep .data-value")
+            cepValueCep.innerText = node.key.zipCode 
+           
+            const cepValueBairro = get("#bairro .data-value");
+            cepValueBairro.innerText = node.key.neighborhood==0? "não informado" :node.key.neighborhood;
+
+            const cepValueRua = get("#endereco .data-value");
+            cepValueRua.innerText = node.key.street;
+
+            const cepValueCidade = get("#cidade .data-value");
+            cepValueCidade.innerText = node.key.city;
+
+            const cepValueComplemento = get("#complemento .data-value");
+            cepValueComplemento.innerText = node.key.complement;
+
+
+              
+
+
+
+        } else {
+            
+            reusltP.innerText = `CEP ${cepInputMasked.value} não encontrado.`;
+            
+        }
+
+    }
+})
+
+
+const mainAppSection = get("#main-app");
+
+mainAppSection.style.display = "none";
+
+const loaderInsideloadDiv = get("#load .loader");
+loaderInsideloadDiv.style.display = "none";
+
+const datasetButton = get("#search");
+
+
+const loaderInsideForm = get("#formCEP .loader");
+loaderInsideForm.style.display = "none";
+
+const reusltP = get("#result");
+reusltP.style.display = "none";
+
+const dataResultDiv = get("#data-result");
+dataResultDiv.style.display = "none";
+
+
+
+
+
+
+
+datasetButton.addEventListener("click", (event) => {
+
+    loaderInsideloadDiv.style.display = "block";
+    datasetButton.classList.add("deactivate");
+    getDataObject(tree);
+
+    setTimeout(() => {
+        alert(`Foram adicionados ${tree.count} Ceps referentes do PI, MA e CE.`);
+        const datasetSection = get("#dataset");
+        datasetSection.style.display = "none";
+        mainAppSection.style.display = "block";
+    }, 500)
+
+
+
+})
+

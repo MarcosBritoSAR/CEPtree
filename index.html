@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/ceptree.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CEP Tree</title>
-  </head>
-  <body>
-    <div id="app">
-      <header>
-        <h1 class="primary">CEP</h1>
-        <h1 class="secondary">TREE</h1>
-      </header>
-      <section id="dataset">
-        <div id="load">
-          <a id="search" class="cta">Carregar Dataset</a>
-          <div class="loader"></div>
-        </div>
-      </section>
-      <section id="search" >
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/ceptree.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./src/style/loading.css">
+  <title>CEP Tree</title>
+</head>
+
+<body>
+  <div id="prepared" class="hidden">
+    <div class="loader"></div>
+    <h4>Preparando aplicação...</h4>
+  </div>
+  <div id="app" class="hidden">
+    <header>
+      <h1 class="primary">CEP</h1>
+      <h1 class="secondary">TREE</h1>
+    </header>
+    <section id="dataset">
+      <div id="load">
+        <a id="search" class="cta">Carregar Dataset</a>
+        <div class="loader"></div>
+      </div>
+    </section>
+    <div id="main-app">
+      <section id="search">
         <form id="formCEP">
           <div id="input-data">
             <label for="fcep">Informe seu CEP</label>
             <input type="text" id="cep" name="fcep" />
           </div>
           <a id="btnSearch" class="cta deactivate">Buscar</a>
-          <div class="loader" ></div>
+          <div class="loader"></div>
         </form>
-        
+
       </section>
       <p id="result">Encontrado em 5 seg.</p>
       <section>
@@ -55,6 +63,8 @@
         </div>
       </section>
     </div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>
